@@ -22,15 +22,15 @@ INSTANCE_INFOS = [
     },
 ]
 FILES_TO_UPLOAD = [
-    [ '../docker-compose-mongodb.yml',      '/shared/docker-compose-mongodb.yml'     ],
-    [ '../docker-compose-redis.yml',        '/shared/docker-compose-redis.yml'       ],
-    [ '../run_all_benchmarks.sh',           '/shared/run_all_benchmarks.sh'          ],
-    [ '../run_all_benchmarks_mongodb.sh',   '/shared/run_all_benchmarks_mongodb.sh'  ],
-    [ '../run_all_benchmarks_redis.sh',     '/shared/run_all_benchmarks_redis.sh'    ],
-    [ '../run_single_benchmark_mongodb.sh', '/shared/run_single_benchmark_mongodb.sh'],
-    [ '../run_single_benchmark_redis.sh',   '/shared/run_single_benchmark_redis.sh'  ],
-    [ '../workloads.txt',                   '/shared/workloads.txt'                  ],
-    [ '../workloadi',                       '/shared/ycsb-0.17.0/workloads/workloadi']
+    [ '../mongodb/docker-compose-mongodb.yml',      '/shared/docker-compose-mongodb.yml'     ],
+    [ '../mongodb/run_all_benchmarks_mongodb.sh',   '/shared/run_all_benchmarks_mongodb.sh'  ],
+    [ '../mongodb/run_single_benchmark_mongodb.sh', '/shared/run_single_benchmark_mongodb.sh'],
+    [ '../redis/docker-compose-redis.yml',          '/shared/docker-compose-redis.yml'       ],
+    [ '../redis/run_all_benchmarks_redis.sh',       '/shared/run_all_benchmarks_redis.sh'    ],
+    [ '../redis/run_single_benchmark_redis.sh',     '/shared/run_single_benchmark_redis.sh'  ],
+    [ '../run_all_benchmarks.sh',                   '/shared/run_all_benchmarks.sh'          ],
+    [ '../workloads.txt',                           '/shared/workloads.txt'                  ],
+    [ '../custom_workloads/workloadi',              '/shared/ycsb-0.17.0/workloads/workloadi']
 ]
 
 ec2: ec2ServiceResource = boto3.resource('ec2')
