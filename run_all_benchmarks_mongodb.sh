@@ -18,3 +18,6 @@
 ./run_single_benchmark_mongodb.sh f 1
 ./run_single_benchmark_mongodb.sh f 2
 ./run_single_benchmark_mongodb.sh f 3
+./run_single_benchmark_mongodb.sh i 1
+./run_single_benchmark_mongodb.sh i 2
+./run_single_benchmark_mongodb.sh i 3

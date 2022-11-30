@@ -18,3 +18,6 @@
 ./run_single_benchmark_redis.sh f 1
 ./run_single_benchmark_redis.sh f 2
 ./run_single_benchmark_redis.sh f 3
+./run_single_benchmark_redis.sh i 1
+./run_single_benchmark_redis.sh i 2
+./run_single_benchmark_redis.sh i 3
