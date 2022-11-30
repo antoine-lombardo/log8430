@@ -61,10 +61,15 @@ echo "-> Done."
 # Start the benchmark
 echo "Loading the benchmark..."
 cd ycsb-0.17.0
-./bin/ycsb load mongodb -s -P workloads/workload$workload -p recordcount=1000 -p mongodb.upsert=true -p mongodb.url=mongodb://mongo1:30001,mongo2:30002,mongo3:30003,mongo4:30004,mongo5:30005,mongo6:30006/?replicaSet=my-replica-set > $load_file  2>&1
+./bin/ycsb load mongodb -s -P workloads/workload$workload -p recordcount=10000 \
+-p mongodb.upsert=true -p mongodb.url=mongodb://mongo1:30001,mongo2:30002,mongo3:30003,mongo4:30004,mongo5:30005,mongo6:30006/?replicaSet=my-replica-set \
+> $load_file  2>&1
 echo "-> Done."
 echo "Running the benchmark..."
-./bin/ycsb run mongodb -s -P workloads/workload$workload -p recordcount=1000 -p mongodb.upsert=true -p mongodb.url=mongodb://mongo1:30001,mongo2:30002,mongo3:30003,mongo4:30004,mongo5:30005,mongo6:30006/?replicaSet=my-replica-set > $run_file  2>&1
+./bin/ycsb run mongodb -s -P workloads/workload$workload -p recordcount=10000 \
+-p mongodb.upsert=true -p mongodb.url=mongodb://mongo1:30001,mongo2:30002,mongo3:30003,mongo4:30004,mongo5:30005,mongo6:30006/?replicaSet=my-replica-set \
+-p measurementtype=timeseries -p timeseries.granularity=1000 \
+> $run_file  2>&1
 cd ..
 echo "-> Done."
 
