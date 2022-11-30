@@ -18,8 +18,11 @@ def delete_all_instances(ec2: ServiceResource):
             logging.info('  {}: Terminated.'.format(instance.id))
 
 
-def create_instance(ec2: ServiceResource, name: str, instance_type: str, availability_zone: str, image_id: str, security_group: SecurityGroup) -> Instance:
+def create_instance(ec2: ServiceResource, name: str, instance_type: str, availability_zone: str, image_id: str, security_group: SecurityGroup, additionnal_commands: str = '') -> Instance:
     logging.info(f'Creating instance "{name}" of type "{instance_type}" instance in zone "{availability_zone}"...')
+    
+    modified_user_data_script = USER_DATA_SCRIPT.format(commands=additionnal_commands)
+
     instance: Instance = ec2.create_instances(
         BlockDeviceMappings=[
         {
@@ -31,7 +34,7 @@ def create_instance(ec2: ServiceResource, name: str, instance_type: str, availab
         MinCount=1,
         MaxCount=1,
         InstanceType=instance_type,
-        UserData=USER_DATA_SCRIPT,
+        UserData=modified_user_data_script,
         KeyName='vockey',
         Placement={
             'AvailabilityZone': availability_zone,

@@ -1,0 +1,60 @@
+version: "3.8"
+
+services:
+  mongo1:
+    image: mongo:5
+    container_name: mongo1
+    command: ["--replSet", "my-replica-set", "--bind_ip_all", "--port", "30001"]
+    volumes:
+      - ./data/mongo-1:/data/db
+    ports:
+      - 30001:30001
+    healthcheck:
+      test: test $$(echo "rs.initiate({_id:'my-replica-set',members:[{_id:0,host:\"mongo1:30001\"},{_id:1,host:\"mongo2:30002\"},{_id:2,host:\"mongo3:30003\"},{_id:3,host:\"mongo4:30004\"},{_id:4,host:\"mongo5:30005\"},{_id:5,host:\"mongo6:30006\"}]}).ok || rs.status().ok" | mongo --port 30001 --quiet) -eq 1
+      interval: 10s
+      start_period: 30s
+
+  mongo2:
+    image: mongo:5
+    container_name: mongo2
+    command: ["--replSet", "my-replica-set", "--bind_ip_all", "--port", "30002"]
+    volumes:
+      - ./data/mongo-2:/data/db
+    ports:
+      - 30002:30002
+
+  mongo3:
+    image: mongo:5
+    container_name: mongo3
+    command: ["--replSet", "my-replica-set", "--bind_ip_all", "--port", "30003"]
+    volumes:
+      - ./data/mongo-3:/data/db
+    ports:
+      - 30003:30003
+
+  mongo4:
+    image: mongo:5
+    container_name: mongo4
+    command: ["--replSet", "my-replica-set", "--bind_ip_all", "--port", "30004"]
+    volumes:
+      - ./data/mongo-4:/data/db
+    ports:
+      - 30004:30004
+
+  mongo5:
+    image: mongo:5
+    container_name: mongo5
+    command: ["--replSet", "my-replica-set", "--bind_ip_all", "--port", "30005"]
+    volumes:
+      - ./data/mongo-5:/data/db
+    ports:
+      - 30005:30005
+
+  mongo6:
+    image: mongo:5
+    container_name: mongo6
+    command: ["--replSet", "my-replica-set", "--bind_ip_all", "--port", "30006"]
+    volumes:
+      - ./data/mongo-6:/data/db
+    ports:
+      - 30006:30006

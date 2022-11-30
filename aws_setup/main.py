@@ -7,7 +7,7 @@ import logging
 from boto3_type_annotations.elbv2 import Client as elbv2Client
 from boto3_type_annotations.ec2 import ServiceResource as ec2ServiceResource
 from boto3_type_annotations.ec2 import Instance
-import security_groups, instances, load_balancers, vpcs, subnets
+import security_groups, instances, load_balancers, vpcs, subnets, user_data_file_upload
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(levelname)s - %(message)s')
@@ -20,6 +20,15 @@ INSTANCE_INFOS = [
         'zone': 'us-east-1a', 
         'image_id': 'ami-08c40ec9ead489470'
     },
+]
+FILES_TO_UPLOAD = [
+    [ '../docker-compose-mongodb.yml',      '/shared/docker-compose-mongodb.yml'     ],
+    [ '../docker-compose-redis.yml',        '/shared/docker-compose-redis.yml'       ],
+    [ '../run_all_benchmarks.sh',           '/shared/run_all_benchmarks.sh'          ],
+    [ '../run_all_benchmarks_mongodb.sh',   '/shared/run_all_benchmarks_mongodb.sh'  ],
+    [ '../run_all_benchmarks_redis.sh',     '/shared/run_all_benchmarks_redis.sh'    ],
+    [ '../run_single_benchmark_mongodb.sh', '/shared/run_single_benchmark_mongodb.sh'],
+    [ '../run_single_benchmark_redis.sh',   '/shared/run_single_benchmark_redis.sh'  ]
 ]
 
 ec2: ec2ServiceResource = boto3.resource('ec2')
@@ -44,13 +53,17 @@ security_group = security_groups.get_security_group(ec2, 'default')
 security_groups.add_ssh_rules(security_group)
 
 # Create the instance
+commands = ''
+for file in FILES_TO_UPLOAD:
+    commands += user_data_file_upload.file_upload_commands(file[0], file[1])
 instance = instances.create_instance(
     ec2,
     'log8430',
     't2.large',
     'us-east-1a',
     'ami-08c40ec9ead489470',
-    security_group
+    security_group,
+    commands
 )
 
 sys.exit(1)
