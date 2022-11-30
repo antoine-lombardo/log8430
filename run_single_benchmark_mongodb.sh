@@ -2,11 +2,16 @@
 
 workload=$1
 attempt=$2
-file=$3
+load_file=$3
+run_file=$4
 
-if test -z "$file" 
+if test -z "$load_file" 
 then
-      file=/results/results_mongodb_workload${workload}_$attempt.txt
+      load_file=/results/mongodb_${workload}_${attempt}_load.txt
+fi
+if test -z "$run_file" 
+then
+      run_file=/results/mongodb_${workload}_${attempt}_run.txt
 fi
 
 echo ""
@@ -22,11 +27,11 @@ echo ""
 # Do some cleaning
 echo "Cleaning Docker files..."
 sudo rm -rf /shared/data
-docker stop `docker ps -qa`              > /dev/null 2>&1
-docker rm `docker ps -qa`                > /dev/null 2>&1
-docker rmi -f `docker images -qa `       > /dev/null 2>&1
-docker volume rm $(docker volume ls -q)  > /dev/null 2>&1
-docker network rm `docker network ls -q` > /dev/null 2>&1
+#docker stop `docker ps -qa`              > /dev/null 2>&1
+#docker rm `docker ps -qa`                > /dev/null 2>&1
+#docker rmi -f `docker images -qa `       > /dev/null 2>&1
+#docker volume rm $(docker volume ls -q)  > /dev/null 2>&1
+#docker network rm `docker network ls -q` > /dev/null 2>&1
 echo "-> Done."
 
 # Start the containers
@@ -54,9 +59,12 @@ sudo mv tmp_hosts /etc/hosts
 echo "-> Done."
 
 # Start the benchmark
-echo "Doing the benchmark..."
+echo "Loading the benchmark..."
 cd ycsb-0.17.0
-./bin/ycsb load mongodb -s -P workloads/workload$workload -p recordcount=1000 -p mongodb.upsert=true -p mongodb.url=mongodb://mongo1:30001,mongo2:30002,mongo3:30003,mongo4:30004,mongo5:30005,mongo6:30006/?replicaSet=my-replica-set > $file  2>&1
+./bin/ycsb load mongodb -s -P workloads/workload$workload -p recordcount=1000 -p mongodb.upsert=true -p mongodb.url=mongodb://mongo1:30001,mongo2:30002,mongo3:30003,mongo4:30004,mongo5:30005,mongo6:30006/?replicaSet=my-replica-set > $load_file  2>&1
+echo "-> Done."
+echo "Running the benchmark..."
+./bin/ycsb run mongodb -s -P workloads/workload$workload -p recordcount=1000 -p mongodb.upsert=true -p mongodb.url=mongodb://mongo1:30001,mongo2:30002,mongo3:30003,mongo4:30004,mongo5:30005,mongo6:30006/?replicaSet=my-replica-set > $run_file  2>&1
 cd ..
 echo "-> Done."
 
@@ -66,5 +74,6 @@ docker compose -f docker-compose-mongodb.yml down > /dev/null 2>&1
 echo "-> Done."
 
 # Print output file
-echo "Output file:"
-echo $file
+echo "Output files:"
+echo $load_file
+echo $run_file

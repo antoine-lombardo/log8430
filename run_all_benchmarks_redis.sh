@@ -1,23 +1,14 @@
 #!/bin/bash
 
-./run_single_benchmark_redis.sh a 1
-./run_single_benchmark_redis.sh a 2
-./run_single_benchmark_redis.sh a 3
-./run_single_benchmark_redis.sh b 1
-./run_single_benchmark_redis.sh b 2
-./run_single_benchmark_redis.sh b 3
-./run_single_benchmark_redis.sh c 1
-./run_single_benchmark_redis.sh c 2
-./run_single_benchmark_redis.sh c 3
-./run_single_benchmark_redis.sh d 1
-./run_single_benchmark_redis.sh d 2
-./run_single_benchmark_redis.sh d 3
-./run_single_benchmark_redis.sh e 1
-./run_single_benchmark_redis.sh e 2
-./run_single_benchmark_redis.sh e 3
-./run_single_benchmark_redis.sh f 1
-./run_single_benchmark_redis.sh f 2
-./run_single_benchmark_redis.sh f 3
-./run_single_benchmark_redis.sh i 1
-./run_single_benchmark_redis.sh i 2
-./run_single_benchmark_redis.sh i 3
+attempts=$1
+if test -z "$attempts" 
+then
+      attempts=3
+fi
+
+while IFS= read -r workload; do
+  for (( i=1; i<=$attempts; i++ ))
+  do
+    ./run_single_benchmark_redis.sh $workload $i
+  done
+done < workloads.txt
