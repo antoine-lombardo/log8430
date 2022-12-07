@@ -47,12 +47,12 @@ echo "-> Done."
 echo "Loading the benchmark..."
 cd /shared/log8430/ycsb-0.17.0
 ./bin/ycsb load cassandra-cql -s -P workloads/workload$workload -p recordcount=1000 \
--p "hosts=127.0.0.1" -p cassandra.username=cassandra -p cassandra.password=log8430pass -p cassandra.keyspace=ycsb
+-p "hosts=127.0.0.1" -p cassandra.username=cassandra -p cassandra.password=log8430pass -p cassandra.keyspace=ycsb \
 > $load_file  2>&1
 echo "-> Done."
 echo "Running the benchmark..."
 ./bin/ycsb run cassandra-cql -s -P workloads/workload$workload -p recordcount=1000 \
--p hosts="127.0.0.1"
+-p "hosts=127.0.0.1" -p cassandra.username=cassandra -p cassandra.password=log8430pass -p cassandra.keyspace=ycsb \
 > $run_file  2>&1
 cd ..
 echo "-> Done."
