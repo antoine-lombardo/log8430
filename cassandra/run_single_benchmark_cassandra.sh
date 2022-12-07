@@ -41,8 +41,7 @@ sleep 30
 echo "-> Done."
 
 # Create the keyspace
-cd /shared/log8430/cqlsh-6.8.29
-./bin/cqlsh --username cassandra --password log8430pass -f init_keyspace.cql
+./shared/log8430/cqlsh-6.8.29/bin/cqlsh --username cassandra --password log8430pass -f init_keyspace.cql
 
 # Start the benchmark
 echo "Loading the benchmark..."
