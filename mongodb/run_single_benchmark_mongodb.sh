@@ -69,6 +69,7 @@ echo "-> Done."
 
 # Stop the containers
 echo "Stopping the Docker Compose..."
+cd /shared/log8430/mongodb
 docker compose -f docker-compose-mongodb.yml down > /dev/null 2>&1
 echo "-> Done."
 

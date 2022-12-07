@@ -7,11 +7,11 @@ run_file=$4
 
 if test -z "$load_file" 
 then
-      load_file=/results/mongodb_${workload}_${attempt}_load.txt
+      load_file=/results/cassandra_${workload}_${attempt}_load.txt
 fi
 if test -z "$run_file" 
 then
-      run_file=/results/mongodb_${workload}_${attempt}_run.txt
+      run_file=/results/cassandra_${workload}_${attempt}_run.txt
 fi
 
 echo ""
@@ -35,13 +35,19 @@ echo "Starting Docker Compose..."
 docker compose -f docker-compose-cassandra.yml up -d > /dev/null 2>&1
 echo "-> Done."
 
-# Wait for the cluster to run
-echo "Waiting for the cluster to be created..."
-sleep 30
-echo "-> Done."
-
 # Create the keyspace
-/shared/log8430/cqlsh-6.8.29/bin/cqlsh --username cassandra --password log8430pass -f init_keyspace.cql
+echo "Creating the keyspace..."
+while true; do
+    ret=$(/shared/log8430/cqlsh-6.8.29/bin/cqlsh --username cassandra --password log8430pass -f init_keyspace.cql 2>&1)
+    if [[ $ret ]]; then
+        echo "-> Cassandra not ready yet, retrying..."
+        sleep 10
+    else
+        echo "-> Done."
+        break
+    fi
+done
+
 
 # Start the benchmark
 echo "Loading the benchmark..."
@@ -59,6 +65,7 @@ echo "-> Done."
 
 # Stop the containers
 echo "Stopping the Docker Compose..."
+cd /shared/log8430/cassandra
 docker compose -f docker-compose-cassandra.yml down > /dev/null 2>&1
 echo "-> Done."
 
