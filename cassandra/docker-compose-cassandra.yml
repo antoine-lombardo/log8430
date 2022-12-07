@@ -14,8 +14,8 @@ services:
       - CASSANDRA_CLUSTER_NAME=log8430-cassandra
       - CASSANDRA_PASSWORD_SEEDER=yes
       - CASSANDRA_PASSWORD=log8430pass
-      - MAX_HEAP_SIZE=1G
-      - HEAP_NEWSIZE=200M
+      - MAX_HEAP_SIZE=100M
+      - HEAP_NEWSIZE=10M
     healthcheck:
       test: ["CMD-SHELL", "[ $$(nodetool statusgossip) = running ]"]
       interval: 10s
@@ -34,8 +34,8 @@ services:
       - CASSANDRA_SEEDS=cassandra1,cassandra2,cassandra3,cassandra4,cassandra5,cassandra6
       - CASSANDRA_CLUSTER_NAME=log8430-cassandra
       - CASSANDRA_PASSWORD=log8430pass
-      - MAX_HEAP_SIZE=1G
-      - HEAP_NEWSIZE=200M
+      - MAX_HEAP_SIZE=100M
+      - HEAP_NEWSIZE=10M
     healthcheck:
       test: ["CMD-SHELL", "[ $$(nodetool statusgossip) = running ]"]
       interval: 10s
@@ -54,8 +54,8 @@ services:
       - CASSANDRA_SEEDS=cassandra1,cassandra2,cassandra3,cassandra4,cassandra5,cassandra6
       - CASSANDRA_CLUSTER_NAME=log8430-cassandra
       - CASSANDRA_PASSWORD=log8430pass
-      - MAX_HEAP_SIZE=1G
-      - HEAP_NEWSIZE=200M
+      - MAX_HEAP_SIZE=100M
+      - HEAP_NEWSIZE=10M
     healthcheck:
       test: ["CMD-SHELL", "[ $$(nodetool statusgossip) = running ]"]
       interval: 10s
@@ -74,8 +74,8 @@ services:
       - CASSANDRA_SEEDS=cassandra1,cassandra2,cassandra3,cassandra4,cassandra5,cassandra6
       - CASSANDRA_CLUSTER_NAME=log8430-cassandra
       - CASSANDRA_PASSWORD=log8430pass
-      - MAX_HEAP_SIZE=1G
-      - HEAP_NEWSIZE=200M
+      - MAX_HEAP_SIZE=100M
+      - HEAP_NEWSIZE=10M
     healthcheck:
       test: ["CMD-SHELL", "[ $$(nodetool statusgossip) = running ]"]
       interval: 10s
@@ -94,8 +94,8 @@ services:
       - CASSANDRA_SEEDS=cassandra1,cassandra2,cassandra3,cassandra4,cassandra5,cassandra6
       - CASSANDRA_CLUSTER_NAME=log8430-cassandra
       - CASSANDRA_PASSWORD=log8430pass
-      - MAX_HEAP_SIZE=1G
-      - HEAP_NEWSIZE=200M
+      - MAX_HEAP_SIZE=100M
+      - HEAP_NEWSIZE=10M
     healthcheck:
       test: ["CMD-SHELL", "[ $$(nodetool statusgossip) = running ]"]
       interval: 10s
@@ -114,8 +114,8 @@ services:
       - CASSANDRA_SEEDS=cassandra1,cassandra2,cassandra3,cassandra4,cassandra5,cassandra6
       - CASSANDRA_CLUSTER_NAME=log8430-cassandra
       - CASSANDRA_PASSWORD=log8430pass
-      - MAX_HEAP_SIZE=1G
-      - HEAP_NEWSIZE=200M
+      - MAX_HEAP_SIZE=100M
+      - HEAP_NEWSIZE=10M
     healthcheck:
       test: ["CMD-SHELL", "[ $$(nodetool statusgossip) = running ]"]
       interval: 10s
