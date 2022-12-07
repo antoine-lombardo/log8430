@@ -1,0 +1,140 @@
+version: '3'
+
+services:
+  cassandra1:
+    image: cassandra:4.0
+    container_name: cassandra1
+    ports:
+      - 7000:7000
+      - 9042:9042
+    volumes:
+      - ./cassandra_data/node1:/bitnami
+    environment:
+      - CASSANDRA_SEEDS=cassandra1,cassandra2,cassandra3,cassandra4,cassandra5,cassandra6
+      - CASSANDRA_CLUSTER_NAME=log8430-cassandra
+      - CASSANDRA_PASSWORD_SEEDER=yes
+      - CASSANDRA_PASSWORD=log8430pass
+      - MAX_HEAP_SIZE=1G
+      - HEAP_NEWSIZE=200M
+    healthcheck:
+      test: ["CMD-SHELL", "[ $$(nodetool statusgossip) = running ]"]
+      interval: 10s
+      timeout: 10s
+      retries: 10
+
+  cassandra2:
+    image: cassandra:4.0
+    container_name: cassandra2
+    ports:
+      - 7001:7000
+      - 9043:9042
+    volumes:
+      - ./cassandra_data/node2:/bitnami
+    environment:
+      - CASSANDRA_SEEDS=cassandra1,cassandra2,cassandra3,cassandra4,cassandra5,cassandra6
+      - CASSANDRA_CLUSTER_NAME=log8430-cassandra
+      - CASSANDRA_PASSWORD=log8430pass
+      - MAX_HEAP_SIZE=1G
+      - HEAP_NEWSIZE=200M
+    healthcheck:
+      test: ["CMD-SHELL", "[ $$(nodetool statusgossip) = running ]"]
+      interval: 10s
+      timeout: 10s
+      retries: 10
+
+  cassandra3:
+    image: cassandra:4.0
+    container_name: cassandra3
+    ports:
+      - 7002:7000
+      - 9044:9042
+    volumes:
+      - ./cassandra_data/node3:/bitnami
+    environment:
+      - CASSANDRA_SEEDS=cassandra1,cassandra2,cassandra3,cassandra4,cassandra5,cassandra6
+      - CASSANDRA_CLUSTER_NAME=log8430-cassandra
+      - CASSANDRA_PASSWORD=log8430pass
+      - MAX_HEAP_SIZE=1G
+      - HEAP_NEWSIZE=200M
+    healthcheck:
+      test: ["CMD-SHELL", "[ $$(nodetool statusgossip) = running ]"]
+      interval: 10s
+      timeout: 10s
+      retries: 10
+
+  cassandra4:
+    image: cassandra:4.0
+    container_name: cassandra4
+    ports:
+      - 7003:7000
+      - 9045:9042
+    volumes:
+      - ./cassandra_data/node4:/bitnami
+    environment:
+      - CASSANDRA_SEEDS=cassandra1,cassandra2,cassandra3,cassandra4,cassandra5,cassandra6
+      - CASSANDRA_CLUSTER_NAME=log8430-cassandra
+      - CASSANDRA_PASSWORD=log8430pass
+      - MAX_HEAP_SIZE=1G
+      - HEAP_NEWSIZE=200M
+    healthcheck:
+      test: ["CMD-SHELL", "[ $$(nodetool statusgossip) = running ]"]
+      interval: 10s
+      timeout: 10s
+      retries: 10
+
+  cassandra5:
+    image: cassandra:4.0
+    container_name: cassandra5
+    ports:
+      - 7004:7000
+      - 9046:9042
+    volumes:
+      - ./cassandra_data/node5:/bitnami
+    environment:
+      - CASSANDRA_SEEDS=cassandra1,cassandra2,cassandra3,cassandra4,cassandra5,cassandra6
+      - CASSANDRA_CLUSTER_NAME=log8430-cassandra
+      - CASSANDRA_PASSWORD=log8430pass
+      - MAX_HEAP_SIZE=1G
+      - HEAP_NEWSIZE=200M
+    healthcheck:
+      test: ["CMD-SHELL", "[ $$(nodetool statusgossip) = running ]"]
+      interval: 10s
+      timeout: 10s
+      retries: 10
+
+  cassandra6:
+    image: cassandra:4.0
+    container_name: cassandra6
+    ports:
+      - 7005:7000
+      - 9047:9042
+    volumes:
+      - ./cassandra_data/node6:/bitnami
+    environment:
+      - CASSANDRA_SEEDS=cassandra1,cassandra2,cassandra3,cassandra4,cassandra5,cassandra6
+      - CASSANDRA_CLUSTER_NAME=log8430-cassandra
+      - CASSANDRA_PASSWORD=log8430pass
+      - MAX_HEAP_SIZE=1G
+      - HEAP_NEWSIZE=200M
+    healthcheck:
+      test: ["CMD-SHELL", "[ $$(nodetool statusgossip) = running ]"]
+      interval: 10s
+      timeout: 10s
+      retries: 10
+
+  wait-for-healty:
+    container_name: wait-for-healty
+    image: hello-world
+    depends_on: 
+      cassandra1:
+        condition: service_healthy
+      cassandra2:
+        condition: service_healthy
+      cassandra3:
+        condition: service_healthy
+      cassandra4:
+        condition: service_healthy
+      cassandra5:
+        condition: service_healthy
+      cassandra6:
+        condition: service_healthy

@@ -1,0 +1,1 @@
+create keyspace ycsb WITH REPLICATION = {'class':'SimpleStrategy','replication_factor':6};

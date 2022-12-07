@@ -9,6 +9,6 @@ fi
 while IFS= read -r workload; do
   for (( i=1; i<=$attempts; i++ ))
   do
-    ./mongodb/run_single_benchmark_mongodb.sh $workload $i
+    ./cassandra/run_single_benchmark_cassandra.sh $workload $i
   done
 done < workloads.txt

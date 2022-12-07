@@ -60,7 +60,7 @@ echo "-> Done."
 
 # Start the benchmark
 echo "Loading the benchmark..."
-cd ycsb-0.17.0
+cd /shared/log8430/ycsb-0.17.0
 ./bin/ycsb load mongodb -s -P workloads/workload$workload -p recordcount=1000 \
 -p mongodb.upsert=true -p mongodb.url=mongodb://mongo1:30001,mongo2:30002,mongo3:30003,mongo4:30004,mongo5:30005,mongo6:30006/?replicaSet=my-replica-set \
 > $load_file  2>&1
@@ -81,3 +81,5 @@ echo "-> Done."
 echo "Output files:"
 echo $load_file
 echo $run_file
+
+cd /shared/log8430

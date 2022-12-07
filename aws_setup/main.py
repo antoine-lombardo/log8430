@@ -21,17 +21,6 @@ INSTANCE_INFOS = [
         'image_id': 'ami-08c40ec9ead489470'
     },
 ]
-FILES_TO_UPLOAD = [
-    [ '../mongodb/docker-compose-mongodb.yml',      '/shared/docker-compose-mongodb.yml'     ],
-    [ '../mongodb/run_all_benchmarks_mongodb.sh',   '/shared/run_all_benchmarks_mongodb.sh'  ],
-    [ '../mongodb/run_single_benchmark_mongodb.sh', '/shared/run_single_benchmark_mongodb.sh'],
-    [ '../redis/docker-compose-redis.yml',          '/shared/docker-compose-redis.yml'       ],
-    [ '../redis/run_all_benchmarks_redis.sh',       '/shared/run_all_benchmarks_redis.sh'    ],
-    [ '../redis/run_single_benchmark_redis.sh',     '/shared/run_single_benchmark_redis.sh'  ],
-    [ '../run_all_benchmarks.sh',                   '/shared/run_all_benchmarks.sh'          ],
-    [ '../workloads.txt',                           '/shared/workloads.txt'                  ],
-    [ '../custom_workloads/workloadi',              '/shared/ycsb-0.17.0/workloads/workloadi']
-]
 
 ec2: ec2ServiceResource = boto3.resource('ec2')
 
@@ -55,17 +44,13 @@ security_group = security_groups.get_security_group(ec2, 'default')
 security_groups.add_ssh_rules(security_group)
 
 # Create the instance
-commands = ''
-for file in FILES_TO_UPLOAD:
-    commands += user_data_file_upload.file_upload_commands(file[0], file[1])
 instance = instances.create_instance(
     ec2,
     'log8430',
     't2.large',
     'us-east-1a',
     'ami-08c40ec9ead489470',
-    security_group,
-    commands
+    security_group
 )
 
 sys.exit(1)

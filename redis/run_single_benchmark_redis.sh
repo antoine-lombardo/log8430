@@ -34,7 +34,7 @@ docker network rm `docker network ls -q` > /dev/null 2>&1
 echo "-> Done."
 
 # Start the containers
-cd /shared
+cd /shared/log8430/redis
 echo "Starting Docker Compose..."
 docker compose -f docker-compose-redis.yml up -d > /dev/null 2>&1
 echo "-> Done."
