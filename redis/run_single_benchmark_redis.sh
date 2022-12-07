@@ -47,7 +47,7 @@ echo "-> Done."
 
 # Start the benchmark
 echo "Loading the benchmark..."
-cd ycsb-0.17.0
+cd /shared/log8430/ycsb-0.17.0
 ./bin/ycsb load redis -s -P workloads/workload$workload -p "redis.host=127.0.0.1" -p "redis.port=6379" -p "redis.cluster=true" > $load_file 2>&1
 echo "-> Done."
 echo "Running the benchmark..."
@@ -64,3 +64,5 @@ echo "-> Done."
 echo "Output files:"
 echo $load_file
 echo $run_file
+
+cd /shared/log8430

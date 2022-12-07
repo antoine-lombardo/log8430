@@ -20,6 +20,7 @@ cd /shared/log8430
 curl -O --location https://github.com/brianfrankcooper/YCSB/releases/download/0.17.0/ycsb-0.17.0.tar.gz
 tar xfvz ycsb-0.17.0.tar.gz
 chmod +x /shared/log8430/ycsb-0.17.0/bin/ycsb
+rm ycsb-0.17.0.tar.gz
 
 # -------------- #
 # Download CQLSH #
@@ -28,3 +29,17 @@ cd /shared/log8430
 curl -O --location https://downloads.datastax.com/enterprise/cqlsh-6.8.tar.gz
 tar -xzvf cqlsh-6.8.tar.gz
 chmod +x /shared/log8430/cqlsh-6.8.29/bin/cqlsh
+rm cqlsh-6.8.tar.gz
+
+# ------------------------ #
+# Mark scripts as runnable #
+# ------------------------ #
+chmod +x cassandra/run_all_benchmarks_cassandra.sh
+chmod +x cassandra/run_single_benchmark_cassandra.sh
+chmod +x mongodb/run_all_benchmarks_mongodb.sh
+chmod +x mongodb/run_single_benchmark_mongodb.sh
+chmod +x redis/run_all_benchmarks_redis.sh
+chmod +x redis/run_single_benchmark_redis.sh
+chmod +x run_all_benchmarks.sh
+chmod -R 777 /results
+chmod -R 777 /shared

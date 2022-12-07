@@ -26,16 +26,11 @@ echo ""
 
 # Do some cleaning
 echo "Cleaning Docker files..."
-sudo rm -rf /shared/data
-#docker stop `docker ps -qa`              > /dev/null 2>&1
-#docker rm `docker ps -qa`                > /dev/null 2>&1
-#docker rmi -f `docker images -qa `       > /dev/null 2>&1
-#docker volume rm $(docker volume ls -q)  > /dev/null 2>&1
-#docker network rm `docker network ls -q` > /dev/null 2>&1
+sudo rm -rf /shared/log8430/mongodb/data
 echo "-> Done."
 
 # Start the containers
-cd /shared
+cd /shared/log8430/mongodb
 echo "Starting Docker Compose..."
 docker compose -f docker-compose-mongodb.yml up -d > /dev/null 2>&1
 echo "-> Done."
