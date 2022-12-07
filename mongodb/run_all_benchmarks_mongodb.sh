@@ -9,6 +9,6 @@ fi
 while IFS= read -r workload; do
   for (( i=1; i<=$attempts; i++ ))
   do
-    ./mongodb/run_single_benchmark_mongodb.sh $workload $i
+    /shared/log8430/mongodb/run_single_benchmark_mongodb.sh $workload $i
   done
-done < workloads.txt
+done < /shared/log8430/workloads.txt

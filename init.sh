@@ -1,5 +1,25 @@
 #!/bin/bash
 
+if [ "$EUID" -ne 0 ]
+  then echo "Please run as root using sudo ./init.sh"
+  exit
+fi
+
+# ------------------ #
+# Create directories #
+# ------------------ #
+mkdir /results
+mkdir /shared
+
+# -------------------- #
+# Clone GIT repository #
+# -------------------- #
+apt update
+apt install git -y
+cd /shared
+git clone https://github.com/antoine-lombardo/log8430.git
+cd /shared/log8430
+
 # -------------------- #
 # Install requirements #
 # -------------------- #

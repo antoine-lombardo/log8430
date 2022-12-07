@@ -53,7 +53,7 @@ instance = instances.create_instance(
     security_group
 )
 
-sys.exit(1)
+sys.exit(0)
 
 # Wait for instances to be running
 instances.wait_for_running(initialized_instances)
