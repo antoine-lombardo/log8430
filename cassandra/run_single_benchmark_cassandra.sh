@@ -17,7 +17,7 @@ fi
 echo ""
 echo ""
 echo "| =============================== |"
-echo "|        MONGODB BENCHMARK        | "
+echo "|       CASSANDRA BENCHMARK       |"
 echo "|           WORKLOAD  $workload           |"
 echo "|            ATTEMPT $attempt            |"
 echo "| =============================== |"
@@ -41,18 +41,18 @@ sleep 30
 echo "-> Done."
 
 # Create the keyspace
-./shared/log8430/cqlsh-6.8.29/bin/cqlsh --username cassandra --password log8430pass -f init_keyspace.cql
+/shared/log8430/cqlsh-6.8.29/bin/cqlsh --username cassandra --password log8430pass -f init_keyspace.cql
 
 # Start the benchmark
 echo "Loading the benchmark..."
 cd /shared/log8430/ycsb-0.17.0
 ./bin/ycsb load cassandra-cql -s -P workloads/workload$workload -p recordcount=1000 \
--p hosts="127.0.0.1" \
+-p "hosts=127.0.0.1" -p cassandra.username=cassandra -p cassandra.password=log8430pass -p cassandra.keyspace=ycsb
 > $load_file  2>&1
 echo "-> Done."
 echo "Running the benchmark..."
 ./bin/ycsb run cassandra-cql -s -P workloads/workload$workload -p recordcount=1000 \
--p hosts="127.0.0.1" \
+-p hosts="127.0.0.1"
 > $run_file  2>&1
 cd ..
 echo "-> Done."

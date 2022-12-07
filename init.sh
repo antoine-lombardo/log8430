@@ -31,6 +31,11 @@ tar -xzvf cqlsh-6.8.tar.gz
 chmod +x /shared/log8430/cqlsh-6.8.29/bin/cqlsh
 rm cqlsh-6.8.tar.gz
 
+# --------------------- #
+# Copy custom workloads #
+# --------------------- #
+cp custom_workloads/workloadi /shared/log8430/ycsb-0.17.0/workloads/workloadi
+
 # ------------------------ #
 # Mark scripts as runnable #
 # ------------------------ #
