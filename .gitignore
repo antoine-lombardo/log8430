@@ -2,3 +2,6 @@ __pycache__/
 venv/
 *.pyc
 .vscode/
+*load.txt
+*run.txt
+log8430/
