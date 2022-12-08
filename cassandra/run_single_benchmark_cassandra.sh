@@ -41,7 +41,7 @@ echo "-> Done."
 echo "Creating the keyspace..."
 cd ..
 while true; do
-    ret=$(./cqlsh-6.8.29/bin/cqlsh --username cassandra --password log8430pass -f init_keyspace.cql 2>&1)
+    ret=$(./cqlsh-6.8.29/bin/cqlsh --username cassandra --password log8430pass -f cassandra/init_keyspace.cql 2>&1)
     if [[ $ret ]]; then
         echo "-> Cassandra not ready yet, retrying..."
         sleep 10
