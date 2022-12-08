@@ -2,6 +2,7 @@ version: '2'
 services:
   redis-node-0:
     image: docker.io/bitnami/redis-cluster:7.0
+    container_name: redis1
     volumes:
       - redis-cluster_data-0:/bitnami/redis/data
     ports:
@@ -12,6 +13,7 @@ services:
 
   redis-node-1:
     image: docker.io/bitnami/redis-cluster:7.0
+    container_name: redis2
     volumes:
       - redis-cluster_data-1:/bitnami/redis/data
     environment:
@@ -20,6 +22,7 @@ services:
 
   redis-node-2:
     image: docker.io/bitnami/redis-cluster:7.0
+    container_name: redis3
     volumes:
       - redis-cluster_data-2:/bitnami/redis/data
     environment:
@@ -28,6 +31,7 @@ services:
 
   redis-node-3:
     image: docker.io/bitnami/redis-cluster:7.0
+    container_name: redis4
     volumes:
       - redis-cluster_data-3:/bitnami/redis/data
     environment:
@@ -36,6 +40,7 @@ services:
 
   redis-node-4:
     image: docker.io/bitnami/redis-cluster:7.0
+    container_name: redis5
     volumes:
       - redis-cluster_data-4:/bitnami/redis/data
     environment:
@@ -44,6 +49,7 @@ services:
 
   redis-node-5:
     image: docker.io/bitnami/redis-cluster:7.0
+    container_name: redis6
     volumes:
       - redis-cluster_data-5:/bitnami/redis/data
     depends_on:

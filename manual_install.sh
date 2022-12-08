@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ "$EUID" -ne 0 ]
-  then echo "Please run as root using sudo ./init.sh"
+  then echo "Please run as root using sudo ./manual_install.sh"
   exit
 fi
 

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ "$EUID" -ne 0 ]
-  then echo "Please run as root using sudo .\run.sh"
+  then echo "Please run as root using sudo ./auto_script.sh"
   exit
 fi
 
@@ -13,8 +13,8 @@ SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 echo ""
 echo "=============================================="
-echo "|                  LOG8415E                  |"
-echo "|                     TP1                    |"
+echo "|                  LOG8430E                  |"
+echo "|                     TP3                    |"
 echo "|         2009913 - Jordan Mimeault          |"
 echo "|         2018968 - Antoine Lombardo         |"
 echo "|         2020511 - Jacob Dupuis             |"
@@ -71,51 +71,43 @@ echo "AWS credentials validated."
 
 echo ""
 echo "Please choose one of the options below:"
-echo "1. Configure AWS load balancer."
-echo "2. Run requests sender."
-echo "3. Fetch metrics."
-echo "4. Run requests sender and fetch metrics."
-echo "5. Do everything."
+echo "1. Deploy a new EC2 instance."
+echo "2. Run benchmarks on an already created EC2 instance."
+echo "3. Do both sequentially."
 echo ""
 read -p "What do you want to do? " selection
 echo ""
 
-script_aws=false
-script_requests=false
-script_metrics=false
+script_deploy=false
+script_benchmark=false
 
 case $selection in 
-	1 ) script_aws=true;;
-    2 ) script_requests=true;;
-    3 ) script_metrics=true;;
-    4 ) script_requests=true
-        script_metrics=true;;
-    5 ) script_aws=true
-        script_requests=true
-        script_metrics=true;;
+	1 ) script_deploy=true;;
+    2 ) script_benchmark=true;;
+    3 ) script_deploy=true
+        script_benchmark=true;;
 	* ) echo "Invalid response, please retry.";
 esac
 
 
 # ------------------------------------------------------------------#
-# SCRIPT: AWS                                                       #
+# SCRIPT: DEPLOY                                                    #
 # ------------------------------------------------------------------#
 
-if [ "$script_aws" = true ] ; then
+if [ "$script_deploy" = true ] ; then
     echo ""
     echo "=============================================="
-    echo "|                AWS SETUP                   |"
+    echo "|                  DEPLOY                     |"
     echo "=============================================="
     echo ""
     cd "$SCRIPT_DIR"
-    cd aws_setup
     echo "Installing requirements..."
-    pip3 install -r requirements.txt 2>&1 >/dev/null
-    echo "Starting AWS setup..."
-    python3 main.py
+    python3 -m pip install -r requirements.txt 2>&1 >/dev/null
+    echo "Deploying the instance..."
+    python3 deploy.py
     ret=$?
     if [ $ret -ne 0 ]; then
-        echo "AWS setup exited with error code $ret"
+        echo "Deployment script exited with error code $ret"
         exit
     fi
 fi
@@ -128,26 +120,20 @@ fi
 # SCRIPT: REQUESTS SENDER                                           #
 # ------------------------------------------------------------------#
 
-if [ "$script_requests" = true ] ; then
+if [ "$script_benchmark" = true ] ; then
     echo ""
     echo "=============================================="
-    echo "|             REQUESTS SENDER                |"
+    echo "|               BENCHMARKING                 |"
     echo "=============================================="
     echo ""
-    echo "Starting request sender..."
     cd "$SCRIPT_DIR"
-    cd requests_sender
-    echo "Stopping existing container..."
-    docker stop tp1 2>&1 >/dev/null
-    echo "Removing old container..."
-    docker rm tp1 2>&1 >/dev/null
-    echo "Building docker image..."
-    docker build --quiet --no-cache -t tp1 . 
-    echo "Running new container..."
-    docker run --name tp1 -e AWS_ACCESS_KEY_ID=$aws_access_key_id -e AWS_SECRET_ACCESS_KEY=$aws_secret_access_key -e AWS_SESSION_TOKEN=$aws_session_token -e AWS_DEFAULT_REGION=us-east-1 tp1
+    echo "Installing requirements..."
+    python3 -m pip install -r requirements.txt 2>&1 >/dev/null
+    echo "Starting the benchmarks..."
+    python3 benchmark.py
     ret=$?
     if [ $ret -ne 0 ]; then
-        echo "Request sender exited with error code $ret"
+        echo "Benchmarking script exited with error code $ret"
         exit
     fi
 fi

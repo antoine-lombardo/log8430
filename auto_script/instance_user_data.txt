@@ -19,6 +19,12 @@ Content-Disposition: attachment; filename="userdata.txt"
 
 #!/bin/bash
 
+# Allow SSH username/password login
+echo 'ubuntu:log8430' | chpasswd
+sudo sed -i "/^[^#]*PasswordAuthentication[[:space:]]no/c\PasswordAuthentication yes" /etc/ssh/sshd_config
+service sshd restart
+
+# Install the scripts
 apt update
 apt install curl -y
 curl -O --location https://github.com/antoine-lombardo/log8430/releases/download/v1/init.sh

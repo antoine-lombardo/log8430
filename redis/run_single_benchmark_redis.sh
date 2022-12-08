@@ -41,7 +41,7 @@ echo "-> Done."
 
 # Wait for the cluster to run
 echo "Waiting for the cluster to be created..."
-docker logs -f shared-redis-node-5-1 2>&1 | grep -m 1 'Cluster correctly created' > /dev/null 2>&1
+docker logs -f redis5 2>&1 | grep -m 1 'Cluster correctly created' > /dev/null 2>&1
 sleep 5
 echo "-> Done."
 
