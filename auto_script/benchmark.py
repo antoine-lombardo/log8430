@@ -1,9 +1,9 @@
 
-import boto3, sys, logging
+import boto3, sys, logging, os
 from boto3_type_annotations.ec2 import ServiceResource as ec2ServiceResource
 from boto3_type_annotations.ec2 import Client as ec2Client
 from boto3_type_annotations.ec2 import Instance as ec2Instance
-import security_groups, instances
+import instances
 from paramiko.client import SSHClient
 from paramiko import AutoAddPolicy
 
@@ -87,6 +87,9 @@ def single_benchmark():
 
 
 def benchmark(db: str, wl: str, at: str) -> ec2Instance:
+    if not os.path.exists('../../results'):
+        os.makedirs('../../results')
+
     logging.info('BENCHMARKING {} USING WORKLOAD {} #{}'.format(db, wl, at))
     logging.info(f'Connecting to the instance...')
     client = SSHClient()
@@ -105,12 +108,12 @@ def benchmark(db: str, wl: str, at: str) -> ec2Instance:
         if 'run.txt' in line:
             run_file = line.replace('\n', '').replace('\r', '')
             with client.open_sftp() as sftp:
-                sftp.get(run_file, '..' + run_file)
+                sftp.get(run_file, '../..' + run_file)
                 logging.info('  Downloaded run file!')
         elif 'load.txt' in line:
             load_file = line.replace('\n', '').replace('\r', '')
             with client.open_sftp() as sftp:
-                sftp.get(load_file, '..' + load_file)
+                sftp.get(load_file, '../..' + load_file)
                 logging.info('  Downloaded load file!')
 
 
