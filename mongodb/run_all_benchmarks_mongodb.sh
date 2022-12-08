@@ -13,6 +13,6 @@ while IFS= read -r workload; do
   for (( i=1; i<=$attempts; i++ ))
   do
     cd "$SCRIPT_DIR"
-    ./mongodb/run_single_benchmark_mongodb.sh $workload $i
+    ./run_single_benchmark_mongodb.sh $workload $i
   done
-done < ../workloads
+done < ../workloads.txt

@@ -57,9 +57,19 @@ def wait_for_running(instance: Instance):
 
 def wait_for_initialized(client: Client, instance: Instance):
     system_status_ok_waiter = client.get_waiter('system_status_ok')
-    system_status_ok_waiter.wait(InstanceIds=[instance.id])
+    system_status_ok_waiter.wait(
+        InstanceIds=[instance.id], 
+        WaiterConfig={
+            'Delay': 15,
+            'MaxAttempts': 60
+        })
     instance_status_ok_waiter = client.get_waiter('instance_status_ok')
-    instance_status_ok_waiter.wait(InstanceIds=[instance.id])
+    instance_status_ok_waiter.wait(
+        InstanceIds=[instance.id],
+        WaiterConfig={
+            'Delay': 15,
+            'MaxAttempts': 60
+        })
 
 def retrieve_instances(ec2: ServiceResource) -> List[Instance]:
     instances = []

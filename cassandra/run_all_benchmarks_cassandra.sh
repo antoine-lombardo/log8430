@@ -15,4 +15,4 @@ while IFS= read -r workload; do
     cd "$SCRIPT_DIR"
     ./run_single_benchmark_cassandra.sh $workload $i
   done
-done < ../workloads
+done < ../workloads.txt
