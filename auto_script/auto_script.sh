@@ -18,7 +18,7 @@ echo "|                     TP3                    |"
 echo "|         2009913 - Jordan Mimeault          |"
 echo "|         2018968 - Antoine Lombardo         |"
 echo "|         2020511 - Jacob Dupuis             |"
-echo "|         2024785 - Alexandre Dufort         |"
+echo "|         2015739 - William Ringuet          |"
 echo "=============================================="
 echo ""
 

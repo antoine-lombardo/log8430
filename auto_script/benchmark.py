@@ -119,7 +119,7 @@ def benchmark(db: str, wl: str, at: str) -> ec2Instance:
 
 if __name__ == "__main__":
     print('')
-    print('What type of benchmark woulf you like to do?')
+    print('What type of benchmark would you like to do?')
     print('1) Benchmark on all databases, using all workloads.')
     print('2) Benchmark Cassandra, using all workloads.')
     print('3) Benchmark MongoDB, using all workloads.')
