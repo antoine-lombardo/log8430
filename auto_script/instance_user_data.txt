@@ -27,8 +27,8 @@ service sshd restart
 # Install the scripts
 apt update
 apt install curl -y
-curl -O --location https://github.com/antoine-lombardo/log8430/releases/download/v1/init.sh
-chmod +x init.sh
-./init.sh
+curl -O --location https://github.com/antoine-lombardo/log8430/releases/download/v1/manual_install.sh
+chmod +x manual_install.sh
+./manual_install.sh
 
 --//

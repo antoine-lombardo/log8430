@@ -1,5 +1,7 @@
 #!/bin/bash
 
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+
 workload=$1
 attempt=$2
 load_file=$3
@@ -26,19 +28,20 @@ echo ""
 
 # Do some cleaning
 echo "Cleaning Docker files..."
-sudo rm -rf /shared/log8430/cassandra/cassandra_data
+cd "$SCRIPT_DIR"
+sudo rm -rf cassandra_data
 echo "-> Done."
 
 # Start the containers
-cd /shared/log8430/cassandra
 echo "Starting Docker Compose..."
 docker compose -f docker-compose-cassandra.yml up -d > /dev/null 2>&1
 echo "-> Done."
 
 # Create the keyspace
 echo "Creating the keyspace..."
+cd ..
 while true; do
-    ret=$(/shared/log8430/cqlsh-6.8.29/bin/cqlsh --username cassandra --password log8430pass -f init_keyspace.cql 2>&1)
+    ret=$(./cqlsh-6.8.29/bin/cqlsh --username cassandra --password log8430pass -f init_keyspace.cql 2>&1)
     if [[ $ret ]]; then
         echo "-> Cassandra not ready yet, retrying..."
         sleep 10
@@ -51,7 +54,7 @@ done
 
 # Start the benchmark
 echo "Loading the benchmark..."
-cd /shared/log8430/ycsb-0.17.0
+cd ycsb-0.17.0
 ./bin/ycsb load cassandra-cql -s -P workloads/workload$workload -p recordcount=1000 \
 -p "hosts=127.0.0.1" -p cassandra.username=cassandra -p cassandra.password=log8430pass -p cassandra.keyspace=ycsb \
 > $load_file  2>&1
@@ -65,7 +68,7 @@ echo "-> Done."
 
 # Stop the containers
 echo "Stopping the Docker Compose..."
-cd /shared/log8430/cassandra
+cd "$SCRIPT_DIR"
 docker compose -f docker-compose-cassandra.yml down > /dev/null 2>&1
 echo "-> Done."
 
@@ -73,5 +76,3 @@ echo "-> Done."
 echo "Output files:"
 echo $load_file
 echo $run_file
-
-cd /shared/log8430

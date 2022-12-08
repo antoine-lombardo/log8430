@@ -1,5 +1,7 @@
 #!/bin/bash
 
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+
 workload=$1
 attempt=$2
 load_file=$3
@@ -26,11 +28,11 @@ echo ""
 
 # Do some cleaning
 echo "Cleaning Docker files..."
-sudo rm -rf /shared/log8430/mongodb/data
+cd "$SCRIPT_DIR"
+sudo rm -rf data
 echo "-> Done."
 
 # Start the containers
-cd /shared/log8430/mongodb
 echo "Starting Docker Compose..."
 docker compose -f docker-compose-mongodb.yml up -d > /dev/null 2>&1
 echo "-> Done."
@@ -55,7 +57,7 @@ echo "-> Done."
 
 # Start the benchmark
 echo "Loading the benchmark..."
-cd /shared/log8430/ycsb-0.17.0
+cd ../ycsb-0.17.0
 ./bin/ycsb load mongodb -s -P workloads/workload$workload -p recordcount=1000 \
 -p mongodb.upsert=true -p mongodb.url=mongodb://mongo1:30001,mongo2:30002,mongo3:30003,mongo4:30004,mongo5:30005,mongo6:30006/?replicaSet=my-replica-set \
 > $load_file  2>&1
@@ -69,7 +71,7 @@ echo "-> Done."
 
 # Stop the containers
 echo "Stopping the Docker Compose..."
-cd /shared/log8430/mongodb
+cd "$SCRIPT_DIR"
 docker compose -f docker-compose-mongodb.yml down > /dev/null 2>&1
 echo "-> Done."
 
@@ -77,5 +79,3 @@ echo "-> Done."
 echo "Output files:"
 echo $load_file
 echo $run_file
-
-cd /shared/log8430
